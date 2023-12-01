@@ -2,9 +2,19 @@
 
 export BUILDPACK_STDLIB_URL="https://lang-common.s3.amazonaws.com/buildpack-stdlib/v7/stdlib.sh"
 
+get_parent_directory() {
+    local path="$1"
+
+    # Use dirname to get the parent directory
+    local parent_directory=$(dirname "$path")
+
+    # Print the result
+    echo "$parent_directory"
+}
+
 create_folder_cache_symlink() {
   local buildpackCacheDir="${1:?}/simple-cache-buildpack/${2:?}"
-  local projectCacheLink="${2:?}"
+  local projectCacheLink=$(get_parent_directory "${2:?}")
 
   # Check if linked directory (from CACHE_DIR) exists in the project, if yes, do not link for safety reasons
   # because it is OK to assume that whatever is in PROJECT_DIR is more up-to-date than CACHE_DIR
