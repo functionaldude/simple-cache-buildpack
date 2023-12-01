@@ -12,6 +12,3 @@ build
 submodule1/build
 submodule2/build
 ```
-
-# Compatibility with `.slugignore`
-Make sure that cached folders are not declared in the `.slugignore` file.
