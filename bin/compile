@@ -20,6 +20,8 @@ source <(curl --retry 3 -fsSL $BUILDPACK_STDLIB_URL)
 
 echo "-----> using $CACHE_DIR as cache dir"
 
+cd $BUILD_DIR
+
 # Cache file containing directory paths (one path per line)
 cache_file=".buildpack-cache"
 
