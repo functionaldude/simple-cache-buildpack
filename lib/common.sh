@@ -39,6 +39,7 @@ create_folder_cache_symlink() {
   if [ ! -d "$projectCacheLink" ]; then
       echo "-----> linking $projectCacheLink from cache..."
       mkdir -p "$buildpackCacheDir"
+      mkdir -p "$projectCacheLink"
       ln -s "$buildpackCacheDir" "$projectCacheLink"
       trap "rm -f $projectCacheLink" EXIT
   else
