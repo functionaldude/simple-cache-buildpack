@@ -14,7 +14,7 @@ get_parent_directory() {
 
 create_folder_cache_symlink() {
   local buildpackCacheDir="${1:?}/simple-cache-buildpack/${2:?}"
-  local projectCacheLink=$(get_parent_directory "${2:?}")
+  local projectCacheLink="${2:?}"
 
   # Check if linked directory (from CACHE_DIR) exists in the project, if yes, do not link for safety reasons
   # because it is OK to assume that whatever is in PROJECT_DIR is more up-to-date than CACHE_DIR
@@ -22,7 +22,7 @@ create_folder_cache_symlink() {
       echo "       linking $projectCacheLink from cache..."
       mkdir -p "$buildpackCacheDir"
       mkdir -p "$projectCacheLink"
-      ln -s "$buildpackCacheDir" "$projectCacheLink"
+      ln -s "$(get_parent_directory "$projectCacheLink")" "$projectCacheLink"
       #trap "rm -f $projectCacheLink" EXIT
   else
       echo "       Warning: $projectCacheLink was not linked form cache, because it exists in the repo"
