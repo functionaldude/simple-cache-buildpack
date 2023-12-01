@@ -21,9 +21,8 @@ create_folder_cache_symlink() {
   if [ ! -d "$projectCacheLink" ]; then
       echo "       linking $projectCacheLink from cache..."
       mkdir -p "$buildpackCacheDir"
-      mkdir -p "$(get_parent_directory "$projectCacheLink")"
+      mkdir -p "$(get_parent_directory "$projectCacheLink")" # Ensure that parent dir of the symlink exists
       ln -s "$buildpackCacheDir" "$projectCacheLink"
-      #trap "rm -f $projectCacheLink" EXIT
   else
       echo "       Warning: $projectCacheLink was not linked form cache, because it exists in the repo"
   fi
