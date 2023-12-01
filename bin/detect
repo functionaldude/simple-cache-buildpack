@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# bin/detect <build-dir>
+
+echo 'Simple Cache Buildpack'
+# All projects are compatible
+exit 0

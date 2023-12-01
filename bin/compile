@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# bin/compile <build-dir> <cache-dir> <env-dir>
+
+# fail fast
+set -e
+
+BP_DIR=$(cd $(dirname $0)/..; pwd) # absolute path
+BIN_DIR=$BP_DIR/bin
+OPT_DIR=$BP_DIR/opt
+LIB_DIR=$BP_DIR/lib
+
+# parse args
+BUILD_DIR=$1
+CACHE_DIR=$2
+ENV_DIR=$3
+
+source $LIB_DIR/common.sh
+source <(curl --retry 3 -fsSL $BUILDPACK_STDLIB_URL)
+
+
+echo "-----> using $CACHE_DIR as cache dir"
+
+# Cache file containing directory paths (one path per line)
+cache_file=".buildpack-cache"
+
+# Check if the input file exists
+if [ ! -f "$cache_file" ]; then
+    echo "Error: Input file '$cache_file' not found, skipping symlink creation to cache dir."
+else
+    # Read each line from the input file and create symlinks
+    while IFS= read -r dir_path; do
+        # Check if the directory path is not empty
+        if [ -n "$dir_path" ]; then
+            create_folder_cache_symlink "$CACHE_DIR" "$dir_path"
+        fi
+    done < "$cache_file"
+fi
+
+echo "-----> Symlinks creation to cache dir complete."
